@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { Searcher } from "./components/Searcher";
+import { UserCard } from "./components/UserCard";
+import { LoadingSpinner } from "./components/LoadingSpiner";
+import { AiFillGithub } from "react-icons/ai";
+import { BsFillSendFill } from "react-icons/bs";
+import { useGetData } from "./hooks/useGetData";
+
+const URL = "https://api.github.com/users/";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, loading, error, fetchData] = useGetData();
+  const [inputValue, setInputValue] = useState<string>("Carlos-Mangandi");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchData(inputValue);
+  };
+
+  useEffect(() => {
+    fetchData(inputValue);
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <i>
+        <AiFillGithub className="text-white text-9xl mb-6" />
+      </i>
+      <main className="w-11/12 max-w-5xl rounded-2xl min-h-[40rem] py-8 bg-violet-300 text-slate-800">
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center justify-center h-[20%] gap-2"
+        >
+          <Searcher
+            name=""
+            value={inputValue}
+            onChange={handleChange}
+            placeholder="Github User..."
+            icon={<AiFillGithub />}
+          />
+          <button
+            type="submit"
+            className="bg-slate-50 text-violet-500 text-xl rounded-full p-3 cursor-pointer"
+          >
+            <BsFillSendFill />
+          </button>
+        </form>
+        {error && (
+          <p className="flex items-center justify-center h-32">{error}</p>
+        )}
+        {loading && (
+          <div className="flex items-center justify-center h-32">
+            <LoadingSpinner />
+          </div>
+        )}
+        {!error && !loading && user && <UserCard user={user} />}
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
