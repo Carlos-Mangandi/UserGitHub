@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ImLocation, ImTwitter } from "react-icons/im";
 import { AiOutlineGlobal, AiOutlineMail } from "react-icons/ai";
 

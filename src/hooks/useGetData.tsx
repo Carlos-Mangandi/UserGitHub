@@ -35,7 +35,7 @@ function useGetData(): [User | null, boolean, string | null, FetchDataFunction] 
         setError(null);
       }
     } catch (error) {
-      setError(error.message || "An error occurred");
+      setError("An error occurred");
     } finally {
       setLoading(false);
     }

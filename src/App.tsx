@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { Searcher } from "./components/Searcher";
 import { UserCard } from "./components/UserCard";
 import { LoadingSpinner } from "./components/LoadingSpiner";
@@ -6,7 +6,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { BsFillSendFill } from "react-icons/bs";
 import { useGetData } from "./hooks/useGetData";
 
-const URL = "https://api.github.com/users/";
+// const URL = "https://api.github.com/users/";
 
 function App() {
   const [user, loading, error, fetchData] = useGetData();
